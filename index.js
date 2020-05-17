@@ -33,13 +33,13 @@ app.post('/send', async (req, res) => {
     <li>Email: ${req.body.email}</li>   
   </ul>
   <h3>Message</h3>
-  <p>${req.body.message}</p>
+  <p>${req.body.bodyText}</p>
   `;
   const test = output;
 
   try {
     // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: process.env.EMAIL, // generated ethereal user
@@ -51,7 +51,7 @@ app.post('/send', async (req, res) => {
     });
 
     // send mail with defined transport object
-    let info = await transporter.sendMail({
+    const info = await transporter.sendMail({
       from: `"Personal Portfolio Contact" <${process.env.EMAIL}>`, // sender address
       to: process.env.EMAIL, // list of receivers
       subject: 'Hello ✔', // Subject line
