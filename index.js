@@ -5,8 +5,11 @@ const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const path = require('path');
 const nodemailer = require('nodemailer');
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors());
 
 // View Engine Setup
 app.engine('handlebars', exphbs({ defaultLayout: false }));
