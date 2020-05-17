@@ -54,7 +54,7 @@ app.post('/send', async (req, res) => {
     const info = await transporter.sendMail({
       from: `"Personal Portfolio Contact" <${process.env.EMAIL}>`, // sender address
       to: process.env.EMAIL, // list of receivers
-      subject: 'Hello ✔', // Subject line
+      subject: 'Message from Portfolio', // Subject line
       text: 'Hello world?', // plain text body
       html: test, // html body
     });
