@@ -2,8 +2,6 @@ require('dotenv').config();
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const exphbs = require('express-handlebars');
-const path = require('path');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
 
@@ -11,15 +9,9 @@ const app = express();
 
 app.use(cors());
 
-// View Engine Setup
-app.engine('handlebars', exphbs({ defaultLayout: false }));
-app.set('view engine', 'handlebars');
-
 // body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-app.use(express.json());
 
 app.post('/send', async ({ body: { name, email, bodyText } }, res) => {
   const output = `
@@ -59,7 +51,7 @@ app.post('/send', async ({ body: { name, email, bodyText } }, res) => {
     console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 
-    res.render('contact', { msg: 'Email has been sent' });
+    res.send({ msg: 'Email has been sent' });
   } catch (err) {
     console.log(err);
   }
