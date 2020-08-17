@@ -19,38 +19,28 @@ app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Static Folder
-app.use('/public', express.static(path.join(__dirname, 'public')));
-
 app.use(express.json());
-app.get('/', (req, res) => {
-  res.render('contact');
-});
 
-app.post('/send', async (req, res) => {
+app.post('/send', async ({ body: { name, email, bodyText } }, res) => {
   const output = `
   <p>Email from My Portfolio</p>
   <h3>Contact Details</h3>
   <ul>
-    <li>Name: ${req.body.name}</li>
-    <li>Email: ${req.body.email}</li>   
+    <li>Name: ${name}</li>
+    <li>Email: ${email}</li>   
   </ul>
   <h3>Message</h3>
-  <p>${req.body.bodyText}</p>
+  <p>${bodyText}</p>
   `;
-  const test = output;
 
   try {
     // create reusable transporter object using the default SMTP transport
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.EMAIL, // generated ethereal user
-        pass: process.env.PASSWORD, // generated ethereal password
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD,
       },
-      // tls: {
-      //   rejectUnauthorized: false,
-      // },
     });
 
     // send mail with defined transport object
@@ -59,7 +49,7 @@ app.post('/send', async (req, res) => {
       to: process.env.EMAIL, // list of receivers
       subject: 'Message from Portfolio', // Subject line
       text: 'Hello world?', // plain text body
-      html: test, // html body
+      html: output, // html body
     });
 
     console.log('Message sent: %s', info.messageId);
