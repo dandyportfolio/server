@@ -54,7 +54,7 @@ app.post('/send', async ({ body: { name, email, bodyText } }, res) => {
 
     res.send({ msg: 'Email has been sent' });
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 });
 
